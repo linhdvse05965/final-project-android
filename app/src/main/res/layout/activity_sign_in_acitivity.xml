@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroud_design"
-    tools:context=".SignUpActivity">
+    tools:context=".SignInAcitivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/edPhoneSignUp"
+            android:id="@+id/edPhoneSignIn"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
             android:hint="Number Phone"
@@ -25,35 +25,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
-            android:id="@+id/edNameSignUp"
-            android:hint="Your Name"
-            android:textSize="34sp"
-            android:layout_marginTop="30dp"
-            android:inputType="text"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:textColorHint="@android:color/white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/edPassSignUp"
+            android:id="@+id/edPassSignIn"
             android:hint="Password"
             android:textSize="34sp"
             android:layout_marginTop="30dp"
-            android:inputType="textPassword"
             android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
+            android:inputType="textPassword"
             android:textColorHint="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
     <Button
-        android:id="@+id/btnSignup"
+        android:id="@+id/btnSignIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:text="Sign Up"
+        android:text="Sign In"
         android:layout_alignParentBottom="true"
         android:shadowColor="@android:color/black"
         android:textColor="@android:color/black" />
