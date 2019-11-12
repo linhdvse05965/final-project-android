@@ -1,35 +1,64 @@
 package fu.prm391.sxample.android_finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import fu.prm391.sxample.android_finalproject.Adapter.CategoryAdapter;
+import fu.prm391.sxample.android_finalproject.Model.Category;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    TextView txtFullName;
+    FirebaseFirestore db;
+    RecyclerView recycler_menu;
+    RecyclerView.LayoutManager layoutManager;
+    CategoryAdapter categoryAdapter;
+    ArrayList<Category> arrayList;
+    ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Menu");
         setSupportActionBar(toolbar);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        db = FirebaseFirestore.getInstance();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +74,40 @@ public class Home extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
+      //  recycler_menu = findViewById(R.id.recycler_menu);
+
+        txtFullName.setText(name);
+        listView = findViewById(R.id.listView);
+        arrayList = new ArrayList<Category>();
+        categoryAdapter = new CategoryAdapter(Home.this, arrayList);
+        listView.setAdapter(categoryAdapter);
+      //  recycler_menu.setAdapter(categoryAdapter);
+      //  recycler_menu.setHasFixedSize(true);
+   //     layoutManager = new LinearLayoutManager(this);
+     //   recycler_menu.setLayoutManager(layoutManager);
+      //  arrayList.add(new Category("Hamburger","https://beptruong.edu.vn/wp-content/uploads/2013/04/hamburger-han-quoc-thanh-pham-ngon-600x400.jpg"));
+        loadMenu();
+    }
+
+    private void loadMenu() {
+        db.collection("Category").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    for(QueryDocumentSnapshot doc : querySnapshot){
+                        String name = doc.getString("Name");
+                        String image = doc.getString("Image");
+                            arrayList.add(new Category(name,image));
+                        Log.i("ketqua",name+"");
+                    }
+                }
+                listView.setAdapter(categoryAdapter);
+            }
+        });
     }
 
     @Override
@@ -66,15 +129,7 @@ public class Home extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -85,17 +140,13 @@ public class Home extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_menu) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_cart) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_order) {
 
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_log_out) {
 
         }
 

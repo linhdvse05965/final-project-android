@@ -3,6 +3,7 @@ package fu.prm391.sxample.android_finalproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,10 @@ public class SignInAcitivity extends AppCompatActivity {
                             QuerySnapshot querySnapshot = task.getResult();
                             for(QueryDocumentSnapshot doc : querySnapshot){
                                 if((editTextPhone.getText().toString().equals(doc.getString("phone"))) && (editTextPass.getText().toString().equals(doc.getString("pass")))){
-                                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                                  //  Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+                                    Intent intentHome = new Intent(SignInAcitivity.this , Home.class);
+                                    intentHome.putExtra("name",doc.getString("name"));
+                                    startActivity(intentHome);
                                 }else{
                                     Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
                                 }
