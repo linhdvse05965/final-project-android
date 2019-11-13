@@ -27,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseFirestore db;
     String phone, name, pass;
     boolean flag;
+    int flagNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +49,35 @@ public class SignUpActivity extends AppCompatActivity {
                             QuerySnapshot querySnapshot = task.getResult();
                             for (QueryDocumentSnapshot doc : querySnapshot) {
                                 if (edPhone.getText().toString().equals(doc.getString("phone"))) {
-                                    flag = false;
-                                     Log.i("ketqua1",doc.getString("phone"));
-                                     break;
+                                    flagNum = 1;
+                                    Log.i("ketqua1", doc.getString("phone"));
+                                    break;
+                                } else if (edPhone.getText().toString().isEmpty()) {
+                                    flagNum = 2;
+                                    break;
+                                } else if (edName.getText().toString().isEmpty()) {
+                                    flagNum = 3;
+                                    break;
+                                } else if (edPass.getText().toString().isEmpty()) {
+                                    flagNum = 4;
+                                    break;
+                                } else if (edPhone.getText().length() < 10) {
+                                    flagNum = 5;
+                                    break;
+                                } else if (edPass.getText().length() < 6) {
+                                    flagNum = 6;
+                                    break;
                                 } else {
-                                    flag = true;
+                                    flagNum = 0;
+                                    // flag = true;
                                 }
                             }
                             Log.i("ketqua", flag + "");
-                            if (flag == true) {
-                                Map<String,Object> createAccount =  new HashMap<>();
-                                createAccount.put("phone",edPhone.getText().toString());
-                                createAccount.put("name",edName.getText().toString());
-                                createAccount.put("pass",edPass.getText().toString());
+                            if (flagNum == 0) {
+                                Map<String, Object> createAccount = new HashMap<>();
+                                createAccount.put("phone", edPhone.getText().toString());
+                                createAccount.put("name", edName.getText().toString());
+                                createAccount.put("pass", edPass.getText().toString());
                                 db.collection("User").add(createAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
@@ -68,9 +85,34 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 });
                                 Toast.makeText(getApplicationContext(), "Create Account Success", Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(getApplicationContext(),"Phone number already exists",Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 1) {
+                                Toast.makeText(getApplicationContext(), "Phone number already exists", Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 2) {
+                                Toast.makeText(getApplicationContext(), "Phone number can't empty", Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 3) {
+                                Toast.makeText(getApplicationContext(), "Name can't empty", Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 4) {
+                                Toast.makeText(getApplicationContext(), "Password can't empty", Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 5) {
+                                Toast.makeText(getApplicationContext(), "Number phone must be greater than 10 characters ", Toast.LENGTH_SHORT).show();
+                            }else if (flagNum == 6) {
+                                Toast.makeText(getApplicationContext(), "Password must be greater than 6 characters ", Toast.LENGTH_SHORT).show();
                             }
+//                            if (flag == true) {
+//                                Map<String,Object> createAccount =  new HashMap<>();
+//                                createAccount.put("phone",edPhone.getText().toString());
+//                                createAccount.put("name",edName.getText().toString());
+//                                createAccount.put("pass",edPass.getText().toString());
+//                                db.collection("User").add(createAccount).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                    @Override
+//                                    public void onSuccess(DocumentReference documentReference) {
+//                                        finish();
+//                                    }
+//                                });
+//                                Toast.makeText(getApplicationContext(), "Create Account Success", Toast.LENGTH_SHORT).show();
+//                            }else{
+//                                Toast.makeText(getApplicationContext(),"Phone number already exists",Toast.LENGTH_SHORT).show();
+//                            }
 
                         }
                     }

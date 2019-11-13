@@ -21,7 +21,6 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-import fu.prm391.sxample.android_finalproject.Database.DBHelper;
 import fu.prm391.sxample.android_finalproject.Model.Category;
 import fu.prm391.sxample.android_finalproject.Model.Order;
 

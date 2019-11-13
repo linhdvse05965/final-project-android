@@ -24,6 +24,7 @@ public class SignInAcitivity extends AppCompatActivity {
     boolean flag;
     String name;
     String phone;
+    int flagNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +40,42 @@ public class SignInAcitivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
-                            for(QueryDocumentSnapshot doc : querySnapshot){
-                                if((editTextPhone.getText().toString().equals(doc.getString("phone"))) && (editTextPass.getText().toString().equals(doc.getString("pass")))){
-                                    flag = true;
+                            for (QueryDocumentSnapshot doc : querySnapshot) {
+                                if ((editTextPhone.getText().toString().equals(doc.getString("phone"))) && (editTextPass.getText().toString().equals(doc.getString("pass")))) {
+                                    //flag = true;
+                                    flagNum = 0;
                                     name = doc.getString("name");
                                     phone = doc.getString("phone");
                                     break;
-                                }else{
-                                    flag = false;
+
+                                } else if (editTextPhone.getText().toString().isEmpty()) {
+                                    flagNum = 2;
+                                } else if (editTextPass.getText().toString().isEmpty()) {
+                                    flagNum = 3;
+                                } else {
+                                    flagNum = 1;
                                 }
                             }
-                            if (flag == true) {
+                            if (flagNum == 0) {
                                 Intent intentHome = new Intent(SignInAcitivity.this, Home.class);
-                                intentHome.putExtra("name",name);
-                                intentHome.putExtra("phone",phone);
+                                intentHome.putExtra("name", name);
+                                intentHome.putExtra("phone", phone);
                                 startActivity(intentHome);
+                            } else if (flagNum == 2) {
+                                Toast.makeText(getApplicationContext(), "Phone number can't empty", Toast.LENGTH_SHORT).show();
+                            } else if (flagNum == 3) {
+                                Toast.makeText(getApplicationContext(), "Pass can't empty", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getApplicationContext(), "Incorrect Phone number or Password", Toast.LENGTH_SHORT).show();
                             }
+//                            if (flag == true) {
+//                                Intent intentHome = new Intent(SignInAcitivity.this, Home.class);
+//                                intentHome.putExtra("name", name);
+//                                intentHome.putExtra("phone", phone);
+//                                startActivity(intentHome);
+//                            } else {
+//                                Toast.makeText(getApplicationContext(), "Incorrect Phone number or Password", Toast.LENGTH_SHORT).show();
+//                            }
                         }
                     }
                 });
