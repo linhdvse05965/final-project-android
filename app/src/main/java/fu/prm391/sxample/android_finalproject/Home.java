@@ -29,6 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -41,8 +42,6 @@ public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     TextView txtFullName;
     FirebaseFirestore db;
-    RecyclerView recycler_menu;
-    RecyclerView.LayoutManager layoutManager;
     CategoryAdapter categoryAdapter;
     ArrayList<Category> arrayList;
     ListView listView;
@@ -63,8 +62,8 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               Intent cartIntent = new Intent(Home.this,Cart.class);
+               startActivity(cartIntent);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -77,19 +76,21 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
-      //  recycler_menu = findViewById(R.id.recycler_menu);
-
         txtFullName.setText(name);
         listView = findViewById(R.id.listView);
         arrayList = new ArrayList<Category>();
         categoryAdapter = new CategoryAdapter(Home.this, arrayList);
         listView.setAdapter(categoryAdapter);
-      //  recycler_menu.setAdapter(categoryAdapter);
-      //  recycler_menu.setHasFixedSize(true);
-   //     layoutManager = new LinearLayoutManager(this);
-     //   recycler_menu.setLayoutManager(layoutManager);
-      //  arrayList.add(new Category("Hamburger","https://beptruong.edu.vn/wp-content/uploads/2013/04/hamburger-han-quoc-thanh-pham-ngon-600x400.jpg"));
-        loadMenu();
+       loadMenu();
+       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
+               Category c = arrayList.get(i);
+               intent.putExtra("Category", c);
+               startActivity(intent);
+           }
+       });
     }
 
     private void loadMenu() {
@@ -101,7 +102,10 @@ public class Home extends AppCompatActivity
                     for(QueryDocumentSnapshot doc : querySnapshot){
                         String name = doc.getString("Name");
                         String image = doc.getString("Image");
-                            arrayList.add(new Category(name,image));
+                        String price = doc.getString("Price");
+                        String des = doc.getString("Description");
+                        String id = doc.getString("Id");
+                            arrayList.add(new Category(id,name,image,des,price));
                         Log.i("ketqua",name+"");
                     }
                 }
