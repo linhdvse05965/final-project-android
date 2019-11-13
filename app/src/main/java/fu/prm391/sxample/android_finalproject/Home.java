@@ -56,6 +56,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         String name = intent.getStringExtra("name");
+        final String phone = intent.getStringExtra("phone");
         db = FirebaseFirestore.getInstance();
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -63,6 +64,7 @@ public class Home extends AppCompatActivity
             @Override
             public void onClick(View view) {
                Intent cartIntent = new Intent(Home.this,Cart.class);
+               cartIntent.putExtra("phone",phone);
                startActivity(cartIntent);
             }
         });
