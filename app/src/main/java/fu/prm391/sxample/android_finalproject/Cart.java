@@ -1,11 +1,17 @@
 package fu.prm391.sxample.android_finalproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +45,48 @@ public class Cart extends AppCompatActivity {
         getDataById();
         db = FirebaseFirestore.getInstance();
         loadCart();
+
+        btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAlertDialog();
+            }
+        });
     }
 
+    public void showAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
+        alertDialog.setTitle("One more step!");
+        alertDialog.setMessage("Please enter your address: ");
+        final EditText editTextAdress = new EditText(Cart.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        editTextAdress.setLayoutParams(lp);
+        alertDialog.setView(editTextAdress);
+        alertDialog.setIcon(R.drawable.ic_shopping_cart_black_24dp);
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = getIntent();
+                String phone = intent.getStringExtra("phone");
+                //add ship
+//                Map<String,Object> shipOrder = new HashMap<>();
+//                shipOrder.put("phone",phone);
+
+                //clean cart
+                finish();
+            }
+        });
+        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alertDialog.show();
+    }
     private void loadCart() {
         db.collection("Order").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -56,7 +102,7 @@ public class Cart extends AppCompatActivity {
                         Total +=(Integer.parseInt(price))*(Integer.parseInt(quantity));
                         Log.i("ketqua",Total+"");
                     }
-                    txtViewTotal.setText(String.valueOf(Total));
+                    txtViewTotal.setText("$"+String.valueOf(Total));
                 }
                 listView.setAdapter(cartAdapter);
             }

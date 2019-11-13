@@ -21,6 +21,9 @@ public class SignInAcitivity extends AppCompatActivity {
     EditText editTextPhone, editTextPass;
     Button btnSignIn;
     FirebaseFirestore db;
+    boolean flag;
+    String name;
+    String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +41,22 @@ public class SignInAcitivity extends AppCompatActivity {
                             QuerySnapshot querySnapshot = task.getResult();
                             for(QueryDocumentSnapshot doc : querySnapshot){
                                 if((editTextPhone.getText().toString().equals(doc.getString("phone"))) && (editTextPass.getText().toString().equals(doc.getString("pass")))){
-                                  //  Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
-                                    Intent intentHome = new Intent(SignInAcitivity.this , Home.class);
-                                    intentHome.putExtra("name",doc.getString("name"));
-                                    startActivity(intentHome);
+                                    flag = true;
+                                    name = doc.getString("name");
+                                    phone = doc.getString("phone");
+                                    break;
                                 }else{
-                                    Toast.makeText(getApplicationContext(),"Fail",Toast.LENGTH_SHORT).show();
+                                    flag = false;
                                 }
                             }
-
+                            if (flag == true) {
+                                Intent intentHome = new Intent(SignInAcitivity.this, Home.class);
+                                intentHome.putExtra("name",name);
+                                intentHome.putExtra("phone",phone);
+                                startActivity(intentHome);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Incorrect Phone number or Password", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });

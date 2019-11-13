@@ -11,9 +11,5 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="571dp"
-        android:layout_x="0dp"
-        android:layout_y="-2dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp" />
+        android:layout_height="600dp" />
 </AbsoluteLayout>

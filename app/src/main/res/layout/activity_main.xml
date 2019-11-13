@@ -5,13 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/backgroud_design"
+    android:background="@drawable/backg"
     >
 <LinearLayout
     android:orientation="vertical"
     android:layout_centerInParent="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+    <ImageView
+        android:background="@drawable/logofast"
+        android:layout_marginBottom="40dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
     <TextView
         android:gravity="center"
         android:id="@+id/txtSlogan"
