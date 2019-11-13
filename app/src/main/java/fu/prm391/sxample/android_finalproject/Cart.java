@@ -23,6 +23,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import fu.prm391.sxample.android_finalproject.Adapter.CartAdapter;
 import fu.prm391.sxample.android_finalproject.Adapter.CategoryAdapter;
@@ -72,8 +74,8 @@ public class Cart extends AppCompatActivity {
                 Intent intent = getIntent();
                 String phone = intent.getStringExtra("phone");
                 //add ship
-//                Map<String,Object> shipOrder = new HashMap<>();
-//                shipOrder.put("phone",phone);
+                Map<String,Object> shipOrder = new HashMap<>();
+                shipOrder.put("phone",phone);
 
                 //clean cart
                 finish();
