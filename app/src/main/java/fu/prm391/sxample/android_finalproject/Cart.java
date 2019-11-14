@@ -79,28 +79,29 @@ public class Cart extends AppCompatActivity {
                 Map<String, Object> shipOrder = new HashMap<>();
                 shipOrder.put("phone", phone);
                 shipOrder.put("address", editTextAdress.getText().toString());
-                db.collection("ShipOrder").add(shipOrder).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                if(editTextAdress.getText().toString().isEmpty()){
+                    Toast.makeText(Cart.this,"Address can't be empty,can't Place Order",Toast.LENGTH_SHORT).show();
+                }else {
+                    db.collection("ShipOrder").add(shipOrder).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
 
-                    }
-                });
-                //clean cart
-                db.collection("Order").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot querySnapshot = task.getResult();
-                            for (QueryDocumentSnapshot doc : querySnapshot) {
-                                doc.getReference().delete();
+                        }
+                    });
+                    //clean cart
+                    db.collection("Order").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                for (QueryDocumentSnapshot doc : querySnapshot) {
+                                    doc.getReference().delete();
+                                }
                             }
                         }
-                    }
-                });
-
-
-
-                finish();
+                    });
+                    finish();
+                }
             }
         });
         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {

@@ -63,9 +63,9 @@ public class Home extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent cartIntent = new Intent(Home.this,Cart.class);
-               cartIntent.putExtra("phone",phone);
-               startActivity(cartIntent);
+                Intent cartIntent = new Intent(Home.this, Cart.class);
+                cartIntent.putExtra("phone", phone);
+                startActivity(cartIntent);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -83,16 +83,16 @@ public class Home extends AppCompatActivity
         arrayList = new ArrayList<Category>();
         categoryAdapter = new CategoryAdapter(Home.this, arrayList);
         listView.setAdapter(categoryAdapter);
-       loadMenu();
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
-               Category c = arrayList.get(i);
-               intent.putExtra("Category", c);
-               startActivity(intent);
-           }
-       });
+        loadMenu();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getApplicationContext(), FoodDetailActivity.class);
+                Category c = arrayList.get(i);
+                intent.putExtra("Category", c);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadMenu() {
@@ -101,14 +101,14 @@ public class Home extends AppCompatActivity
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     QuerySnapshot querySnapshot = task.getResult();
-                    for(QueryDocumentSnapshot doc : querySnapshot){
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
                         String name = doc.getString("Name");
                         String image = doc.getString("Image");
                         String price = doc.getString("Price");
                         String des = doc.getString("Description");
                         String id = doc.getString("Id");
-                            arrayList.add(new Category(id,name,image,des,price));
-                        Log.i("ketqua",name+"");
+                        arrayList.add(new Category(id, name, image, des, price));
+                        Log.i("ketqua", name + "");
                     }
                 }
                 listView.setAdapter(categoryAdapter);
@@ -149,11 +149,14 @@ public class Home extends AppCompatActivity
         if (id == R.id.nav_menu) {
             // Handle the camera action
         } else if (id == R.id.nav_cart) {
-
+            Intent intentCart = new Intent(Home.this, Cart.class);
+            startActivity(intentCart);
         } else if (id == R.id.nav_order) {
-
+            Intent intentShipOrder = new Intent(Home.this, ShipOrderActivity.class);
+            startActivity(intentShipOrder);
         } else if (id == R.id.nav_log_out) {
-
+            Intent intentSignIn = new Intent(Home.this, SignInAcitivity.class);
+            startActivity(intentSignIn);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
