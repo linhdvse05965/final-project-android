@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 } else if (edPass.getText().toString().isEmpty()) {
                                     flagNum = 4;
                                     break;
-                                } else if (edPhone.getText().length() < 10) {
+                                } else if (edPhone.getText().length() < 10 || edPhone.getText().length() > 10) {
                                     flagNum = 5;
                                     break;
                                 } else if (edPass.getText().length() < 6) {
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                             } else if (flagNum == 4) {
                                 Toast.makeText(getApplicationContext(), "Password can't empty", Toast.LENGTH_SHORT).show();
                             } else if (flagNum == 5) {
-                                Toast.makeText(getApplicationContext(), "Number phone must be greater than 10 characters ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Number phone must be 10 characters ", Toast.LENGTH_SHORT).show();
                             }else if (flagNum == 6) {
                                 Toast.makeText(getApplicationContext(), "Password must be greater than 6 characters ", Toast.LENGTH_SHORT).show();
                             }

@@ -78,7 +78,7 @@ public class Home extends AppCompatActivity
 
         View headerView = navigationView.getHeaderView(0);
         txtFullName = (TextView) headerView.findViewById(R.id.txtFullName);
-        txtFullName.setText(name);
+        txtFullName.setText("Welcome "+name);
         listView = findViewById(R.id.listView);
         arrayList = new ArrayList<Category>();
         categoryAdapter = new CategoryAdapter(Home.this, arrayList);
@@ -156,6 +156,7 @@ public class Home extends AppCompatActivity
             startActivity(intentShipOrder);
         } else if (id == R.id.nav_log_out) {
             Intent intentSignIn = new Intent(Home.this, SignInAcitivity.class);
+            intentSignIn.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intentSignIn);
         }
 

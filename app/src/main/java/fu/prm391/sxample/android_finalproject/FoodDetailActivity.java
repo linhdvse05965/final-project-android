@@ -69,9 +69,9 @@ public class FoodDetailActivity extends AppCompatActivity {
         food_price = findViewById(R.id.food_price);
         food_des = findViewById(R.id.food_description);
         food_image = findViewById(R.id.img_food);
-        collapsingToolbarLayout = findViewById(R.id.collapsing);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapedAppbar);
+       // collapsingToolbarLayout = findViewById(R.id.collapsing);
+       // collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
+       // collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapedAppbar);
         numberButton = findViewById(R.id.number_button);
         btnCart = findViewById(R.id.btnCart);
 
